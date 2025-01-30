@@ -109,6 +109,20 @@ public class Dak {
                 throw new DukeException("Invalid format. Use: event <description> /from <start time> /to <end time>");
             }
 
+        } else if (message.startsWith("delete ")) {
+            try {
+                int taskNumber = Integer.parseInt(message.split(" ")[1]);
+                if (taskNumber <= 0 || taskNumber > listItem.size()) {
+                    throw new DukeException("Invalid task number. Please provide a valid task number to delete.");
+                }
+                Task removedTask = listItem.remove(taskNumber - 1);
+                printMessage("Noted. I've removed this task:\n  " + removedTask + "\n  Now you have " + listItem.size() + " tasks in the list.");
+            } catch (NumberFormatException e) {
+                throw new DukeException("Please provide a valid task number to delete.");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new DukeException("Please specify the task number to delete.");
+            }
+
         } else {
             throw new DukeException("I'm sorry, but I don't know what that means. Please try again with a valid command.");
         }
