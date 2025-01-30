@@ -1,3 +1,6 @@
+# Ignore compiled class files
+*.class
+
 # IDEA files
 /.idea/
 /out/
