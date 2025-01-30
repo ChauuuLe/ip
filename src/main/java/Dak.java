@@ -1,6 +1,9 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import task.Task;
+import task.Todo;
+import task.Deadline;
+import task.Event;
 
 public class Dak {
     public static void printMessage(String message) {
@@ -67,9 +70,44 @@ public class Dak {
                     printMessage("Please provide a valid task number.");
                 }
 
+            } else if (message.startsWith("todo ")) {
+                String description = message.substring(5).trim();
+                if (description.isEmpty()) {
+                    printMessage("The description of a todo cannot be empty.");
+                } else {
+                    Task task = new Todo(description);
+                    listItem.add(task);
+                    printMessage("Got it. I've added this task:\n  " + task + "\n  Now you have " + listItem.size() + " tasks in the list.");
+                }
+
+            } else if (message.startsWith("deadline ")) {
+                try {
+                    String[] parts = message.substring(9).split(" /by ");
+                    String description = parts[0].trim();
+                    String by = parts[1].trim();
+                    Task task = new Deadline(description, by);
+                    listItem.add(task);
+                    printMessage("Got it. I've added this task:\n  " + task + "\n  Now you have " + listItem.size() + " tasks in the list.");
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    printMessage("Invalid format. Use: deadline <description> /by <time>");
+                }
+
+            } else if (message.startsWith("event ")) {
+                try {
+                    String[] parts = message.substring(6).split(" /from ");
+                    String description = parts[0].trim();
+                    String[] timeParts = parts[1].split(" /to ");
+                    String from = timeParts[0].trim();
+                    String to = timeParts[1].trim();
+                    Task task = new Event(description, from, to);
+                    listItem.add(task);
+                    printMessage("Got it. I've added this task:\n  " + task + "\n  Now you have " + listItem.size() + " tasks in the list.");
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    printMessage("Invalid format. Use: event <description> /from <start time> /to <end time>");
+                }
+
             } else {
-                listItem.add(new Task(message));
-                printMessage("added: " + message);
+                printMessage("I'm sorry, I don't understand that command.");
             }
         }
 
