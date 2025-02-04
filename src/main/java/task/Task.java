@@ -29,4 +29,12 @@ public class Task {
     public boolean isDone() {
         return isDone;
     }
+    
+    /**
+     * Converts the task to a formatted string for saving to a file.
+     * Subclasses should override this method to add specific task details.
+     */
+    public String toDataString() {
+        return "T | " + (isDone ? "1" : "0") + " | " + description;
+    }
 }
