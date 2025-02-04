@@ -100,47 +100,51 @@ public class Dak {
 
         } else if (message.startsWith("deadline ")) {
             try {
+                // Expect input like: deadline return book /by 2/12/2019 1800
                 String[] parts = message.substring(9).split(" /by ");
                 if (parts.length < 2) {
-                    throw new DukeException("Invalid format. Use: deadline <description> /by <time>");
+                    throw new DukeException("Invalid format. Use: deadline <description> /by <d/M/yyyy HHmm>");
                 }
                 String description = parts[0].trim();
                 String by = parts[1].trim();
                 if (description.isEmpty() || by.isEmpty()) {
-                    throw new DukeException("Both the description and deadline time must be provided.");
+                    throw new DukeException("Both the description and deadline date-time must be provided.");
                 }
+
+                // Create a new Deadline task with the custom date-time format
                 Task task = new Deadline(description, by);
                 listItem.add(task);
                 saveTasks();
                 printMessage("Got it. I've added this task:\n  " + task + "\n  Now you have " + listItem.size() + " tasks in the list.");
-            } catch (ArrayIndexOutOfBoundsException e) {
-                throw new DukeException("Invalid format. Use: deadline <description> /by <time>");
+            } catch (Exception e) {
+                throw new DukeException("Invalid date-time format. Use d/M/yyyy HHmm (e.g., 2/12/2019 1800).");
             }
-
         } else if (message.startsWith("event ")) {
             try {
+                // Expect input like: event project meeting /from 2/12/2019 1400 /to 2/12/2019 1600
                 String[] parts = message.substring(6).split(" /from ");
                 if (parts.length < 2) {
-                    throw new DukeException("Invalid format. Use: event <description> /from <start time> /to <end time>");
+                    throw new DukeException("Invalid format. Use: event <description> /from <d/M/yyyy HHmm> /to <d/M/yyyy HHmm>");
                 }
                 String description = parts[0].trim();
                 String[] timeParts = parts[1].split(" /to ");
                 if (timeParts.length < 2) {
-                    throw new DukeException("Invalid format. Use: event <description> /from <start time> /to <end time>");
+                    throw new DukeException("Invalid format. Use: event <description> /from <d/M/yyyy HHmm> /to <d/M/yyyy HHmm>");
                 }
                 String from = timeParts[0].trim();
                 String to = timeParts[1].trim();
                 if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
                     throw new DukeException("All event details (description, start time, and end time) must be provided.");
                 }
+
+                // Create a new Event task with the custom date-time format
                 Task task = new Event(description, from, to);
                 listItem.add(task);
                 saveTasks();
                 printMessage("Got it. I've added this task:\n  " + task + "\n  Now you have " + listItem.size() + " tasks in the list.");
-            } catch (ArrayIndexOutOfBoundsException e) {
-                throw new DukeException("Invalid format. Use: event <description> /from <start time> /to <end time>");
+            } catch (Exception e) {
+                throw new DukeException("Invalid date-time format. Use d/M/yyyy HHmm (e.g., 2/12/2019 1400).");
             }
-
         } else if (message.startsWith("delete ")) {
             try {
                 int taskNumber = Integer.parseInt(message.split(" ")[1]);
