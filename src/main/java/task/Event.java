@@ -1,23 +1,30 @@
 package task;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Represents an Event task in the chatbot.
  */
 public class Event extends Task {
-    protected String from;
-    protected String to;
+    protected LocalDateTime from;
+    protected LocalDateTime to;
+
+    // Define the custom date-time format
+    private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+    private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
 
     /**
      * Constructs an Event task with the given description, start time, and end time.
      *
      * @param description The task description.
-     * @param from        The start time of the event.
-     * @param to          The end time of the event.
+     * @param from        The start time in the format d/M/yyyy HHmm.
+     * @param to          The end time in the format d/M/yyyy HHmm.
      */
     public Event(String description, String from, String to) {
         super(description);
-        this.from = from;
-        this.to = to;
+        this.from = LocalDateTime.parse(from, INPUT_FORMAT);
+        this.to = LocalDateTime.parse(to, INPUT_FORMAT);
     }
 
     /**
@@ -27,7 +34,25 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
+        return "[E]" + super.toString() + " (from: " + formatFrom() + " to: " + formatTo() + ")";
+    }
+
+    /**
+     * Formats the start time to a more readable format.
+     *
+     * @return The formatted start time.
+     */
+    protected String formatFrom() {
+        return from.format(OUTPUT_FORMAT);
+    }
+
+    /**
+     * Formats the end time to a more readable format.
+     *
+     * @return The formatted end time.
+     */
+    protected String formatTo() {
+        return to.format(OUTPUT_FORMAT);
     }
 
     /**
@@ -37,6 +62,6 @@ public class Event extends Task {
      */
     @Override
     public String toDataString() {
-        return "E | " + (isDone() ? "1" : "0") + " | " + getDescription() + " | " + from + " | " + to;
+        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from.format(INPUT_FORMAT) + " | " + to.format(INPUT_FORMAT);
     }
 }

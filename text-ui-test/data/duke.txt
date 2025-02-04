@@ -1,2 +1,2 @@
 T | 0 | read book
-D | 1 | return book | Sunday
+D | 1 | return book | 2/12/2019 1800
