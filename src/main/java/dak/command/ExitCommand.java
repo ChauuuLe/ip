@@ -1,8 +1,8 @@
-package command;
+package dak.command;
 
-import task.TaskList;
-import storage.Storage;
-import ui.Ui;
+import dak.task.TaskList;
+import dak.storage.Storage;
+import dak.ui.Ui;
 
 /**
  * Exits the chatbot.

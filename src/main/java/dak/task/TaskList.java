@@ -1,7 +1,7 @@
-package task;
+package dak.task;
 
 import java.util.ArrayList;
-import ui.Ui;
+import dak.ui.Ui;
 
 /**
  * Manages the list of tasks.

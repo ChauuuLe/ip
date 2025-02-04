@@ -1,10 +1,10 @@
-package ui;
+package dak.ui;
 
-import storage.Storage;
-import parser.Parser;
-import task.TaskList;
-import exceptions.DukeException;
-import command.Command;
+import dak.storage.Storage;
+import dak.parser.Parser;
+import dak.task.TaskList;
+import dak.exceptions.DukeException;
+import dak.command.Command;
 import java.io.IOException;
 
 /**

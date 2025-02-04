@@ -13,13 +13,13 @@ then
 fi
 
 # Compile the code into the bin folder, terminate if an error occurs
-if ! javac -cp ../src/main/java -Xlint:none -d ../bin ../src/main/java/**/*.java; then
+if ! javac -cp ../src/main/java -Xlint:none -d ../bin ../src/main/java/dak/**/*.java; then
     echo "********** BUILD FAILURE **********"
     exit 1
 fi
 
 # run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
-java -classpath ../bin Dak < input.txt > ACTUAL.TXT
+java -classpath ../bin dak.ui.Dak < input.txt > ACTUAL.TXT
 
 # convert to UNIX format
 cp EXPECTED.TXT EXPECTED-UNIX.TXT

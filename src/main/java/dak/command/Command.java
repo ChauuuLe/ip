@@ -1,9 +1,9 @@
-package command;
+package dak.command;
 
-import task.TaskList;
-import storage.Storage;
-import ui.Ui;
-import exceptions.DukeException;
+import dak.task.TaskList;
+import dak.storage.Storage;
+import dak.ui.Ui;
+import dak.exceptions.DukeException;
 
 /**
  * Represents a command that can be executed.

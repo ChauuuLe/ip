@@ -1,4 +1,4 @@
-package exceptions;
+package dak.exceptions;
 
 /**
  * Handle exception error specify for chatbot

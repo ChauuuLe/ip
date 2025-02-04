@@ -1,4 +1,4 @@
-package ui;
+package dak.ui;
 
 import java.util.Scanner;
 
