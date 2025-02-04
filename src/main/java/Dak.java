@@ -5,22 +5,49 @@ import task.Todo;
 import task.Deadline;
 import task.Event;
 import exceptions.DukeException;
+import storage.Storage;
+import java.io.IOException;
 
+/**
+ * The main chatbot class that manages user interactions and tasks.
+ */
 public class Dak {
+    private static final String FILE_PATH = "./data/duke.txt";
+    private static Storage storage;
+    private static ArrayList<Task> tasks;
+
+    /**
+     * Prints a message within a formatted box.
+     *
+     * @param message The message to print.
+     */
     public static void printMessage(String message) {
         System.out.println("  ____________________________________________________________");
         System.out.println("  " + message);
         System.out.println("  ____________________________________________________________");
     }
 
+    /**
+     * Displays the chatbot's greeting message.
+     */
     public static void greeting() {
         printMessage("Hello, I'm Dak\n  What can I do for you?");
     }
 
+    /**
+     * Displays the chatbot's farewell message.
+     */
     public static void bye() {
         printMessage("Bye. Hope to see you again soon!");
     }
 
+    /**
+     * Handles user commands and modifies the task list accordingly.
+     *
+     * @param message The user's command input.
+     * @param listItem The list of tasks.
+     * @throws DukeException If the command is invalid.
+     */
     public static void handleCommand(String message, ArrayList<Task> listItem) throws DukeException {
         if (message.equals("list")) {
             if (listItem.isEmpty()) {
@@ -41,6 +68,7 @@ public class Dak {
                 }
                 Task task = listItem.get(taskNumber - 1);
                 task.markAsDone();
+                saveTasks();
                 printMessage("Nice! I've marked this task as done:\n  " + task);
             } catch (NumberFormatException e) {
                 throw new DukeException("Please provide a valid task number for the mark command.");
@@ -54,6 +82,7 @@ public class Dak {
                 }
                 Task task = listItem.get(taskNumber - 1);
                 task.markAsNotDone();
+                saveTasks();
                 printMessage("OK, I've marked this task as not done yet:\n  " + task);
             } catch (NumberFormatException e) {
                 throw new DukeException("Please provide a valid task number for the unmark command.");
@@ -66,6 +95,7 @@ public class Dak {
             }
             Task task = new Todo(description);
             listItem.add(task);
+            saveTasks();
             printMessage("Got it. I've added this task:\n  " + task + "\n  Now you have " + listItem.size() + " tasks in the list.");
 
         } else if (message.startsWith("deadline ")) {
@@ -81,6 +111,7 @@ public class Dak {
                 }
                 Task task = new Deadline(description, by);
                 listItem.add(task);
+                saveTasks();
                 printMessage("Got it. I've added this task:\n  " + task + "\n  Now you have " + listItem.size() + " tasks in the list.");
             } catch (ArrayIndexOutOfBoundsException e) {
                 throw new DukeException("Invalid format. Use: deadline <description> /by <time>");
@@ -104,6 +135,7 @@ public class Dak {
                 }
                 Task task = new Event(description, from, to);
                 listItem.add(task);
+                saveTasks();
                 printMessage("Got it. I've added this task:\n  " + task + "\n  Now you have " + listItem.size() + " tasks in the list.");
             } catch (ArrayIndexOutOfBoundsException e) {
                 throw new DukeException("Invalid format. Use: event <description> /from <start time> /to <end time>");
@@ -116,6 +148,7 @@ public class Dak {
                     throw new DukeException("Invalid task number. Please provide a valid task number to delete.");
                 }
                 Task removedTask = listItem.remove(taskNumber - 1);
+                saveTasks();
                 printMessage("Noted. I've removed this task:\n  " + removedTask + "\n  Now you have " + listItem.size() + " tasks in the list.");
             } catch (NumberFormatException e) {
                 throw new DukeException("Please provide a valid task number to delete.");
@@ -128,10 +161,34 @@ public class Dak {
         }
     }
 
+    /**
+     * Saves the current list of tasks to the storage file.
+     */
+    private static void saveTasks() {
+        try {
+            storage.save(tasks);
+        } catch (IOException e) {
+            printMessage("Failed to save tasks: " + e.getMessage());
+        }
+    }
+
+    /**
+     * The main method that initializes the chatbot and starts the user interaction loop.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
+        storage = new Storage(FILE_PATH);
+
+        try {
+            tasks = storage.load();
+        } catch (IOException e) {
+            printMessage("Failed to load tasks: " + e.getMessage());
+            tasks = new ArrayList<>();
+        }
+
         greeting();
         Scanner sc = new Scanner(System.in);
-        ArrayList<Task> listItem = new ArrayList<>();
 
         while (true) {
             String message = sc.nextLine();
@@ -141,7 +198,7 @@ public class Dak {
             }
 
             try {
-                handleCommand(message, listItem);
+                handleCommand(message, tasks);
             } catch (DukeException e) {
                 printMessage("OOPS!!! " + e.getMessage());
             }
