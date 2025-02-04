@@ -13,7 +13,7 @@ then
 fi
 
 # Compile the code into the bin folder, terminate if an error occurs
-if ! javac -cp ../src/main/java -Xlint:none -d ../bin ../src/main/java/**/*.java ../src/main/java/Dak.java; then
+if ! javac -cp ../src/main/java -Xlint:none -d ../bin ../src/main/java/**/*.java; then
     echo "********** BUILD FAILURE **********"
     exit 1
 fi
