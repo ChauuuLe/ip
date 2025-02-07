@@ -1,6 +1,12 @@
 package dak.parser;
 
-import dak.command.*;
+import dak.command.Command;
+import dak.command.ExitCommand;
+import dak.command.ListCommand;
+import dak.command.MarkCommand;
+import dak.command.DeleteCommand;
+import dak.command.AddCommand;
+import dak.command.UnmarkCommand;
 import dak.exceptions.DukeException;
 
 /**
