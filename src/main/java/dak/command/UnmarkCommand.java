@@ -22,6 +22,14 @@ public class UnmarkCommand extends Command {
         this.taskIndex = taskIndex;
     }
 
+    /**
+     * unmark a task as done.
+     *
+     * @param tasks The task list.
+     * @param ui The Ui object to interact with the user.
+     * @param storage The Storage object to handle file operations.
+     * @throws DukeException If there is an error during execution.
+     */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
         if (taskIndex < 1 || taskIndex > tasks.getTasks().size()) {

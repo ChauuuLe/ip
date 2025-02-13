@@ -27,6 +27,14 @@ public class AddCommand extends Command {
         this.input = input;
     }
 
+    /**
+     * Add task to the task list.
+     *
+     * @param tasks The task list.
+     * @param ui The Ui object to interact with the user.
+     * @param storage The Storage object to handle file operations.
+     * @throws DukeException If there is an error during execution.
+     */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException {
         Task task;
