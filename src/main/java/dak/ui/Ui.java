@@ -30,9 +30,9 @@ public class Ui {
      * @param message The message to print.
      */
     public void printMessage(String message) {
-        System.out.println("  ____________________________________________________________");
+        showLine();
         System.out.println("  " + message);
-        System.out.println("  ____________________________________________________________");
+        showLine();
     }
 
     /**
