@@ -43,6 +43,13 @@ public class Parser {
             } catch (NumberFormatException e) {
                 throw new DukeException("Please provide a valid task number for the delete command.");
             }
+        } else if (input.startsWith("find ")) {
+            String keyword = input.substring(5).trim();
+            if (keyword.isEmpty()) {
+                throw new DukeException("Please provide a non-empty keyword for the find command.");
+            } else {
+                return new FindCommand(keyword);
+            }
         }
 
         throw new DukeException("I'm sorry, but I don't know what that means.");

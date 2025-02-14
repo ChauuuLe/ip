@@ -21,14 +21,14 @@ public class Task {
      * Marks the task as done.
      */
     public void markAsDone() {
-        isDone = true;
+        this.isDone = true;
     }
 
     /**
      * Marks the task as not done.
      */
     public void markAsNotDone() {
-        isDone = false;
+        this.isDone = false;
     }
 
     /**
@@ -37,7 +37,7 @@ public class Task {
      * @return The task description.
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     /**
@@ -47,6 +47,16 @@ public class Task {
      */
     public boolean isDone() {
         return isDone;
+    }
+
+    /**
+     * Checks if a keyword is contained in the description.
+     * 
+     * @param keyword The keyword that need to be checked.
+     * @return True if the description contains the keyword.
+     */
+    public boolean containsKeyword(String keyword) {
+        return this.description.toLowerCase().contains(keyword.toLowerCase());
     }
 
     /**
