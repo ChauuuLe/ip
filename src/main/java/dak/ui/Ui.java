@@ -1,52 +1,26 @@
 package dak.ui;
 
-import java.util.Scanner;
-
 /**
- * Handles user interactions.
+ * Handles user interaction via JavaFX.
  */
 public class Ui {
-    private final Scanner scanner;
+
+    private MainApp mainApp; // Reference to JavaFX UI
 
     /**
      * Constructs a Ui object.
      */
-    public Ui() {
-        scanner = new Scanner(System.in);
+    public Ui(MainApp mainApp) {
+        this.mainApp = mainApp;
     }
 
     /**
-     * Reads a command from the user.
+     * Sends a message to be displayed in the JavaFX UI.
      *
-     * @return The user's input.
-     */
-    public String readCommand() {
-        return scanner.nextLine();
-    }
-
-    /**
-     * Prints a message with a formatted box.
-     *
-     * @param message The message to print.
+     * @param message The message to display.
      */
     public void printMessage(String message) {
-        showLine();
-        System.out.println("  " + message);
-        showLine();
-    }
-
-    /**
-     * Shows the welcome message.
-     */
-    public void showWelcome() {
-        printMessage("Hello, I'm Dak\n  What can I do for you?");
-    }
-
-    /**
-     * Shows the goodbye message.
-     */
-    public void showGoodbye() {
-        printMessage("Bye. Hope to see you again soon!");
+        mainApp.displayMessage("Dak: " + message);
     }
 
     /**
@@ -55,20 +29,20 @@ public class Ui {
      * @param message The error message.
      */
     public void showError(String message) {
-        printMessage("OOPS!!! " + message);
+        mainApp.displayMessage("OOPS!!! " + message);
     }
 
     /**
-     * Shows a loading error message.
+     * Shows the welcome message.
      */
-    public void showLoadingError() {
-        printMessage("Failed to load tasks from storage.");
+    public void showWelcome() {
+        mainApp.displayMessage("Hello, I'm Dak 🤖\nWhat can I do for you?");
     }
 
     /**
-     * Prints a divider line.
+     * Shows the goodbye message.
      */
-    public void showLine() {
-        System.out.println("  ____________________________________________________________");
+    public void showGoodbye() {
+        mainApp.displayMessage("Bye. Hope to see you again soon!");
     }
 }

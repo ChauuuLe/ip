@@ -8,7 +8,7 @@ import dak.command.Command;
 import java.io.IOException;
 
 /**
- * The main chatbot class that initializes and runs the chatbot.
+ * The main chatbot logic for processing user input.
  */
 public class Dak {
     private static final String FILE_PATH = "./data/duke.txt";
@@ -19,47 +19,27 @@ public class Dak {
     /**
      * Constructs the Dak chatbot.
      */
-    public Dak() {
-        ui = new Ui();
+    public Dak(Ui ui) {
+        this.ui = ui;
         storage = new Storage(FILE_PATH);
         try {
             tasks = new TaskList(storage.load());
         } catch (IOException e) {
-            ui.showLoadingError();
+            ui.showError("Failed to load tasks.");
             tasks = new TaskList();
         }
     }
 
     /**
-     * Runs the chatbot's main loop.
+     * Processes user input and response the message.
+     * @param input The user input string.
      */
-    public void run() {
-        ui.showWelcome();
-        boolean isExit = false;
-
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                Command command = Parser.parse(fullCommand);
-                command.execute(tasks, ui, storage);
-                isExit = command.isExit();
-            } catch (DukeException e) {
-                ui.showError(e.getMessage());
-            } finally {
-                ui.showLine();
-            }
+    public void response(String input) {
+        try {
+            Command command = Parser.parse(input);
+            command.execute(tasks, ui, storage);
+        } catch (DukeException e) {
+            ui.printMessage("OOPS! " + e.getMessage());
         }
-
-        ui.showGoodbye();
-    }
-
-
-    /**
-     * The entry point of the program.
-     *
-     * @param args Command-line arguments.
-     */
-    public static void main(String[] args) {
-        new Dak().run();
     }
 }
