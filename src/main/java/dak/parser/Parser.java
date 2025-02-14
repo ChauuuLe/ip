@@ -7,6 +7,7 @@ import dak.command.MarkCommand;
 import dak.command.DeleteCommand;
 import dak.command.AddCommand;
 import dak.command.UnmarkCommand;
+import dak.command.FindCommand;
 import dak.exceptions.DukeException;
 
 /**
