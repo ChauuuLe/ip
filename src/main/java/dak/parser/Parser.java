@@ -7,6 +7,7 @@ import dak.command.MarkCommand;
 import dak.command.DeleteCommand;
 import dak.command.AddCommand;
 import dak.command.UnmarkCommand;
+import dak.command.FindCommand;
 import dak.exceptions.DukeException;
 
 /**
@@ -48,6 +49,13 @@ public class Parser {
                 return new DeleteCommand(taskIndex);
             } catch (NumberFormatException e) {
                 throw new DukeException("Please provide a valid task number for the delete command.");
+            }
+        } else if (input.startsWith("find ")) {
+            String keyword = input.substring(5).trim();
+            if (keyword.isEmpty()) {
+                throw new DukeException("Please provide a non-empty keyword for the find command.");
+            } else {
+                return new FindCommand(keyword);
             }
         }
 
