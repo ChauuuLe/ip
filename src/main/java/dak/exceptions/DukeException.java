@@ -6,6 +6,7 @@ package dak.exceptions;
 public class DukeException extends Exception {
     /**
      * Create Exception with error message
+     * 
      * @param message The error message
      */
     public DukeException(String message) {

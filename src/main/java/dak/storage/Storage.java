@@ -25,6 +25,7 @@ public class Storage {
 
     /**
      * Loads tasks from the file. Creates an empty list if the file does not exist.
+     * 
      * @return The list of tasks loaded from the file.
      * @throws IOException If an error occurs while reading the file.
      */
@@ -50,6 +51,7 @@ public class Storage {
 
     /**
      * Saves the current list of tasks to the file.
+     * 
      * @param tasks The list of tasks to save.
      * @throws IOException If an error occurs while writing to the file.
      */
@@ -64,6 +66,7 @@ public class Storage {
 
     /**
      * Parses a line from the file and converts it into a Task object.
+     * 
      * @param line The line to parse.
      * @return The corresponding Task object.
      */
