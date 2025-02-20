@@ -32,6 +32,7 @@ public class Dak {
 
     /**
      * Processes user input and response the message.
+     * 
      * @param input The user input string.
      */
     public void response(String input) {
