@@ -35,6 +35,15 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns the due date-time of the Deadline task.
+     *
+     * @return The due date-time as a LocalDateTime object.
+     */
+    public LocalDateTime getBy() {
+        return by;
+    }
+
+    /**
      * Formats the due date-time to a more readable format (e.g., Dec 2 2019, 6:00 PM).
      *
      * @return The formatted due date-time.

@@ -22,14 +22,7 @@ class UnmarkCommandTest {
      */
     @Test
     void execute_validIndex_unmarksTask() throws DukeException {
-        // Create a dummy MainApp instance to satisfy Ui's constructor requirement.
-        MainApp dummyApp = new MainApp() {
-            @Override
-            public void displayMessage(String message) {
-                // No action needed for testing.
-            }
-        };
-        Ui ui = new Ui(dummyApp);
+        Ui ui = setupUi();
         Storage storage = new Storage("test.txt");
         TaskList taskList = new TaskList();
         taskList.addTask(new Todo("Read book"));
@@ -47,14 +40,7 @@ class UnmarkCommandTest {
      */
     @Test
     void execute_invalidIndex_throwsException() {
-        // Create a dummy MainApp instance to satisfy Ui's constructor requirement.
-        MainApp dummyApp = new MainApp() {
-            @Override
-            public void displayMessage(String message) {
-                // No action needed for testing.
-            }
-        };
-        Ui ui = new Ui(dummyApp);
+        Ui ui = setupUi();
         Storage storage = new Storage("./src/test/data/test.txt");
         TaskList taskList = new TaskList();
         
@@ -63,5 +49,20 @@ class UnmarkCommandTest {
         assertThrows(DukeException.class, () -> {
             command.execute(taskList, ui, storage);
         });
+    }
+
+    /**
+     * Helper method to create a dummy MainApp instance and return a Ui instance.
+     *
+     * @return A Ui instance with a dummy MainApp.
+     */
+    private Ui setupUi() {
+        MainApp dummyApp = new MainApp() {
+            @Override
+            public void displayMessage(String message) {
+                // No action needed for testing.
+            }
+        };
+        return new Ui(dummyApp);
     }
 }

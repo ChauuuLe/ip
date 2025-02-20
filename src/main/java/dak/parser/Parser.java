@@ -8,6 +8,7 @@ import dak.command.DeleteCommand;
 import dak.command.AddCommand;
 import dak.command.UnmarkCommand;
 import dak.command.FindCommand;
+import dak.command.SortCommand;
 import dak.exceptions.DukeException;
 
 /**
@@ -54,6 +55,8 @@ public class Parser {
                 return new ExitCommand();
             case "list":
                 return new ListCommand();
+            case "sort":
+                return new SortCommand();
             default:
                 throw new IllegalStateException("Unexpected command in parseSimpleCommand");
         }

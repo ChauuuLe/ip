@@ -17,14 +17,7 @@ class ListCommandTest {
      */
     @Test
     void execute_emptyTaskList_shouldShowNoTasksMessage() {
-        // Create a dummy MainApp instance to satisfy Ui's constructor requirement.
-        MainApp dummyApp = new MainApp() {
-            @Override
-            public void displayMessage(String message) {
-                // No action needed for testing.
-            }
-        };
-        Ui ui = new Ui(dummyApp);
+        Ui ui = setupUi();
         Storage storage = new Storage("./src/test/data/test.txt");
         TaskList taskList = new TaskList();
         
@@ -33,5 +26,20 @@ class ListCommandTest {
 
         // Since the task list is empty, the size should be 0.
         assertEquals(0, taskList.getTasks().size());
+    }
+
+    /**
+     * Helper method to create a dummy MainApp instance and return a Ui instance.
+     *
+     * @return A Ui instance with a dummy MainApp.
+     */
+    private Ui setupUi() {
+        MainApp dummyApp = new MainApp() {
+            @Override
+            public void displayMessage(String message) {
+                // No action needed for testing.
+            }
+        };
+        return new Ui(dummyApp);
     }
 }
