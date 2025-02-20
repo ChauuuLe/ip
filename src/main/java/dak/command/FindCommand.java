@@ -18,6 +18,7 @@ public class FindCommand extends Command {
      * @param keyword The user input string.
      */
     public FindCommand(String keyword) {
+        assert keyword.isEmpty() == false : "Keyword should not be empty";
         this.keyword = keyword;
     }
 
