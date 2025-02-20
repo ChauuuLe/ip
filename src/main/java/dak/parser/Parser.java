@@ -23,42 +23,97 @@ public class Parser {
      * @throws DukeException If the command is invalid.
      */
     public static Command parse(String input) throws DukeException {
-        if (input.equals("bye")) {
-            return new ExitCommand();
-        } else if (input.equals("list")) {
-            return new ListCommand();
-        } else if (input.startsWith("mark ")) {
-            try {
-                int taskIndex = Integer.parseInt(input.substring(5).trim());
-                return new MarkCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new DukeException("Please provide a valid task number for the mark command.");
-            }
-        } else if (input.startsWith("unmark ")) {
-            try {
-                int taskIndex = Integer.parseInt(input.substring(7).trim());
-                return new UnmarkCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new DukeException("Please provide a valid task number for the unmark command.");
-            }
-        } else if (input.startsWith("todo ") || input.startsWith("deadline ") || input.startsWith("event ")) {
-            return new AddCommand(input);
-        } else if (input.startsWith("delete ")) {
-            try {
-                int taskIndex = Integer.parseInt(input.substring(7).trim());
-                return new DeleteCommand(taskIndex);
-            } catch (NumberFormatException e) {
-                throw new DukeException("Please provide a valid task number for the delete command.");
-            }
+        input = input.trim();
+        
+        if (isSimpleCommand(input)) {
+            return parseSimpleCommand(input);
+        } else if (isTaskNumberCommand(input)) {
+            return parseTaskNumberCommand(input);
+        } else if (isAddCommand(input)) {
+            return parseAddCommand(input);
         } else if (input.startsWith("find ")) {
-            String keyword = input.substring(5).trim();
-            if (keyword.isEmpty()) {
-                throw new DukeException("Please provide a non-empty keyword for the find command.");
-            } else {
-                return new FindCommand(keyword);
-            }
+            return parseFindCommand(input);
         }
 
         throw new DukeException("I'm sorry, but I don't know what that means.");
+    }
+
+    /**
+     * Determines if the input is a simple command (e.g., list, bye).
+     */
+    private static boolean isSimpleCommand(String input) {
+        return input.equals("bye") || input.equals("list");
+    }
+
+    /**
+     * Parses simple commands like "bye" and "list".
+     */
+    private static Command parseSimpleCommand(String input) {
+        switch (input) {
+            case "bye":
+                return new ExitCommand();
+            case "list":
+                return new ListCommand();
+            default:
+                throw new IllegalStateException("Unexpected command in parseSimpleCommand");
+        }
+    }
+
+    /**
+     * Determines if the input is a command that requires a task number (e.g., mark, unmark, delete).
+     */
+    private static boolean isTaskNumberCommand(String input) {
+        return input.startsWith("mark ") || input.startsWith("unmark ") || input.startsWith("delete ");
+    }
+
+    /**
+     * Parses commands that require a task number (mark, unmark, delete).
+     */
+    private static Command parseTaskNumberCommand(String input) throws DukeException {
+        String[] parts = input.split(" ", 2);
+        if (parts.length < 2) {
+            throw new DukeException("Please provide a valid task number.");
+        }
+
+        try {
+            int taskIndex = Integer.parseInt(parts[1].trim());
+            switch (parts[0]) {
+                case "mark":
+                    return new MarkCommand(taskIndex);
+                case "unmark":
+                    return new UnmarkCommand(taskIndex);
+                case "delete":
+                    return new DeleteCommand(taskIndex);
+                default:
+                    throw new IllegalStateException("Unexpected command in parseTaskNumberCommand");
+            }
+        } catch (NumberFormatException e) {
+            throw new DukeException("Please provide a valid task number.");
+        }
+    }
+
+    /**
+     * Determines if the input is an add command (todo, deadline, event).
+     */
+    private static boolean isAddCommand(String input) {
+        return input.startsWith("todo ") || input.startsWith("deadline ") || input.startsWith("event ");
+    }
+
+    /**
+     * Parses "todo", "deadline", and "event" commands.
+     */
+    private static Command parseAddCommand(String input) {
+        return new AddCommand(input);
+    }
+
+    /**
+     * Parses the "find" command.
+     */
+    private static Command parseFindCommand(String input) throws DukeException {
+        String keyword = input.substring(5).trim();
+        if (keyword.isEmpty()) {
+            throw new DukeException("Please provide a non-empty keyword for the find command.");
+        }
+        return new FindCommand(keyword);
     }
 }
