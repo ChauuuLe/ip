@@ -19,6 +19,7 @@ public class UnmarkCommand extends Command {
      * @param taskIndex The index of the task to unmark.
      */
     public UnmarkCommand(int taskIndex) {
+        assert taskIndex > 0 : "Task index should be greater than zero";
         this.taskIndex = taskIndex;
     }
 
