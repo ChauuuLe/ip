@@ -20,7 +20,7 @@ public class Ui {
      * @param message The message to display.
      */
     public void printMessage(String message) {
-        mainApp.displayMessage("Dak: " + message);
+        mainApp.displayMessage("Dak: " + message, false);
     }
 
     /**
@@ -29,20 +29,20 @@ public class Ui {
      * @param message The error message.
      */
     public void showError(String message) {
-        mainApp.displayMessage("OOPS!!! " + message);
+        mainApp.displayMessage("OOPS!!! " + message, false);
     }
 
     /**
      * Shows the welcome message.
      */
     public void showWelcome() {
-        mainApp.displayMessage("Hello, I'm Dak 🤖\nWhat can I do for you?");
+        mainApp.displayMessage("Hello, I'm Dak 🤖\nWhat can I do for you?", false);
     }
 
     /**
      * Shows the goodbye message.
      */
     public void showGoodbye() {
-        mainApp.displayMessage("Bye. Hope to see you again soon!");
+        mainApp.displayMessage("Bye. Hope to see you again soon!", false);
     }
 }
