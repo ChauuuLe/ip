@@ -1,59 +1,78 @@
 package dak.ui;
 
+import java.io.IOException;
+import java.util.Collections;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
- * A custom dialog box for displaying messages in the chatbot.
+ * Represents a dialog box consisting of an ImageView for the speaker's avatar
+ * and a label containing text from the speaker.
  */
 public class DialogBox extends HBox {
-    private Label text;
+    @FXML
+    private Label dialog;
+    @FXML
     private ImageView displayPicture;
 
     /**
-     * Constructs a dialog box with a message, an avatar image, and a flag indicating if the message is from the user.
+     * Private constructor for DialogBox.
      *
-     * @param message The text message to display.
-     * @param img     The image avatar for the message.
-     * @param isUser  True if the message is from the user; false if from the chatbot.
+     * @param text The text message.
+     * @param img  The avatar image.
      */
-    public DialogBox(String message, Image img, boolean isUser) {
-        setupComponents(message, img, isUser);
-        styleDialogBox(isUser);
-    }
-
-    /**
-     * Initializes components of the dialog box and adds them in the correct order based on the sender.
-     *
-     * @param message The text message to display.
-     * @param img     The image avatar for the message.
-     * @param isUser  True if the message is from the user; false if from the chatbot.
-     */
-    private void setupComponents(String message, Image img, boolean isUser) {
-        text = new Label(message);
-        displayPicture = new ImageView(img);
-        text.setWrapText(true);
-        displayPicture.setFitWidth(50.0);
-        displayPicture.setFitHeight(50.0);
-        
-        if (isUser) {
-            // For user messages, display message first then image.
-            this.getChildren().addAll(text, displayPicture);
-        } else {
-            // For chatbot messages, display image first then message.
-            this.getChildren().addAll(displayPicture, text);
+    private DialogBox(String text, Image img) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
+            fxmlLoader.setController(this);
+            fxmlLoader.setRoot(this);
+            fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        dialog.setText(text);
+        displayPicture.setImage(img);
     }
 
     /**
-     * Styles the dialog box by setting its alignment based on the sender.
-     *
-     * @param isUser True if the message is from the user; false if from the chatbot.
+     * Flips the dialog box such that the ImageView is on the left and text on the right.
      */
-    private void styleDialogBox(boolean isUser) {
-        setAlignment(isUser ? Pos.TOP_RIGHT : Pos.TOP_LEFT);
+    private void flip() {
+        ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
+        Collections.reverse(tmp);
+        getChildren().setAll(tmp);
+        setAlignment(Pos.TOP_LEFT);
+    }
+
+    /**
+     * Returns a dialog box for the user's message.
+     *
+     * @param text The user's message.
+     * @param img  The user's avatar image.
+     * @return A DialogBox instance.
+     */
+    public static DialogBox getUserDialog(String text, Image img) {
+        return new DialogBox(text, img);
+    }
+
+    /**
+     * Returns a dialog box for Dak's response. The box is flipped to show the avatar on the left.
+     *
+     * @param text The response message.
+     * @param img  The bot's avatar image.
+     * @return A DialogBox instance.
+     */
+    public static DialogBox getDakDialog(String text, Image img) {
+        DialogBox db = new DialogBox(text, img);
+        db.flip();
+        return db;
     }
 }
