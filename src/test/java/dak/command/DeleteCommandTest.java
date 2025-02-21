@@ -56,7 +56,6 @@ class DeleteCommandTest {
      */
     private Ui setupUi() {
         MainApp dummyApp = new MainApp() {
-            @Override
             public void displayMessage(String message) {
                 // No action needed for testing.
             }
