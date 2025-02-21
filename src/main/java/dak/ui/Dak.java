@@ -24,8 +24,8 @@ public class Dak {
         storage = new Storage(FILE_PATH);
         try {
             tasks = new TaskList(storage.load());
-        } catch (IOException e) {
-            ui.showError("Failed to load tasks.");
+        } catch (IOException | DukeException e) {
+            ui.showError("Failed to load tasks: " + e.getMessage());
             tasks = new TaskList();
         }
     }
@@ -40,7 +40,7 @@ public class Dak {
             Command command = Parser.parse(input);
             command.execute(tasks, ui, storage);
         } catch (DukeException e) {
-            ui.printMessage("OOPS! " + e.getMessage());
+            ui.showError(e.getMessage());
         }
     }
 }

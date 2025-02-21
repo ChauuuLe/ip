@@ -43,7 +43,7 @@ public class Parser {
      * Determines if the input is a simple command (e.g., list, bye).
      */
     private static boolean isSimpleCommand(String input) {
-        return input.equals("bye") || input.equals("list");
+        return input.equals("bye") || input.equals("list") || input.equals("sort");
     }
 
     /**

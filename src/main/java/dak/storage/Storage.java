@@ -4,6 +4,7 @@ import dak.task.Task;
 import dak.task.Todo;
 import dak.task.Deadline;
 import dak.task.Event;
+import dak.exceptions.DukeException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,8 +29,9 @@ public class Storage {
      * 
      * @return The list of tasks loaded from the file.
      * @throws IOException If an error occurs while reading the file.
+     * @throws DukeException If an error occurs while parsing a task.
      */
-    public ArrayList<Task> load() throws IOException {
+    public ArrayList<Task> load() throws IOException, DukeException {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
 
@@ -69,8 +71,9 @@ public class Storage {
      * 
      * @param line The line to parse.
      * @return The corresponding Task object.
+     * @throws DukeException If the task type is invalid or the line is malformed.
      */
-    private Task parseTask(String line) {
+    private Task parseTask(String line) throws DukeException {
         String[] parts = line.split(" \\| ");
         String taskType = parts[0];
         boolean isDone = parts[1].equals("1");
@@ -79,18 +82,24 @@ public class Storage {
         switch (taskType) {
             case "T":
                 Task todo = new Todo(description);
-                if (isDone) todo.markAsDone();
+                if (isDone) {
+                    todo.markAsDone();
+                }
                 return todo;
             case "D":
                 Task deadline = new Deadline(description, parts[3]);
-                if (isDone) deadline.markAsDone();
+                if (isDone) {
+                    deadline.markAsDone();
+                }
                 return deadline;
             case "E":
                 Task event = new Event(description, parts[3], parts[4]);
-                if (isDone) event.markAsDone();
+                if (isDone) {
+                    event.markAsDone();
+                }
                 return event;
             default:
-                throw new IllegalArgumentException("Invalid task type in file: " + taskType);
+                throw new DukeException("Invalid task type in file: " + taskType);
         }
     }
 }

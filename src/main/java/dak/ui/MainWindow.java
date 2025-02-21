@@ -41,9 +41,9 @@ public class MainWindow {
      */
     public void displayMessage(String message, boolean isUser) {
         if (isUser) {
-            dialogContainer.getChildren().add(DialogBox.getUserDialog("You: " + message, userImage));
+            dialogContainer.getChildren().add(DialogBox.getUserDialog(message, userImage));
         } else {
-            dialogContainer.getChildren().add(DialogBox.getDakDialog("Dak: " + message, dakImage));
+            dialogContainer.getChildren().add(DialogBox.getDakDialog(message, dakImage));
         }
     }
 
