@@ -81,22 +81,23 @@ public class TaskList {
     }
 
     /**
-     * Sorts tasks chronologically by deadline date.
-     * Other tasks remain in their original positions.
+     * Returns a list of Deadline tasks sorted chronologically.
+     *
+     * @return An ArrayList containing only Deadline tasks sorted by their due date.
      */
-    public void sortTasksByDeadline() {
-        Collections.sort(tasks, new Comparator<Task>() {
+    public ArrayList<Deadline> getSortedDeadlines() {
+        ArrayList<Deadline> deadlines = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task instanceof Deadline) {
+                deadlines.add((Deadline) task);
+            }
+        }
+        Collections.sort(deadlines, new Comparator<Deadline>() {
             @Override
-            public int compare(Task t1, Task t2) {
-                if (t1 instanceof Deadline && t2 instanceof Deadline) {
-                    return ((Deadline) t1).getBy().compareTo(((Deadline) t2).getBy());
-                } else if (t1 instanceof Deadline) {
-                    return -1; // Deadline comes first
-                } else if (t2 instanceof Deadline) {
-                    return 1; // Other tasks stay after Deadline
-                }
-                return 0; // No change for non-Deadline tasks
+            public int compare(Deadline d1, Deadline d2) {
+                return d1.getBy().compareTo(d2.getBy());
             }
         });
+        return deadlines;
     }
 }

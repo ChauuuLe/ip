@@ -16,7 +16,7 @@
     <Label fx:id="dialog" text="Your message goes here..."
            wrapText="true" 
            maxWidth="300"
-           style="-fx-font-size: 14px; -fx-text-fill: #ffffff; -fx-background-color: #444444; -fx-background-radius: 10; -fx-padding: 10; -fx-max-height: 300px; -fx-text-overrun: ellipsis;" />
+           style="-fx-font-size: 14px; -fx-text-fill: #ffffff; -fx-background-color: #444444; -fx-background-radius: 10; -fx-padding: 10;" />
     <ImageView fx:id="displayPicture" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
   </children>
 </fx:root>
