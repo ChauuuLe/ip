@@ -1,14 +1,15 @@
 package dak.ui;
 
 /**
- * Handles user interaction via JavaFX.
+ * The UI class for Dak.
  */
 public class Ui {
-
-    private MainApp mainApp; // Reference to JavaFX UI
+    private MainApp mainApp;
 
     /**
-     * Constructs a Ui object.
+     * Constructs a Ui instance with reference to the main JavaFX UI.
+     *
+     * @param mainApp The main application.
      */
     public Ui(MainApp mainApp) {
         this.mainApp = mainApp;
@@ -20,7 +21,7 @@ public class Ui {
      * @param message The message to display.
      */
     public void printMessage(String message) {
-        mainApp.displayMessage("Dak: " + message, false);
+        mainApp.displayMessage(message, false);
     }
 
     /**
